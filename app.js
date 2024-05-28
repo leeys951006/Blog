@@ -30,12 +30,21 @@ const server = http.createServer((req,res) => {
       res.end();
     }
 
-    if(req.url === "/index.js") {
-      const index3 = fs.readFileSync("./public/index.js", "utf8");
+    if(req.url === "/work.html") {
+      const work = fs.readFileSync("./public/work.html", "utf8");
+
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'text/html; charset=uft-8');
+      res.write(work);
+      res.end();
+    }
+
+    if(req.url === "/work.js") {
+      const work3 = fs.readFileSync("./public/work.js", "utf8");
 
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/javascript; charset=uft-8');
-      res.write(index3);
+      res.write(work3);
       res.end();
     }
     console.log(req.url)
