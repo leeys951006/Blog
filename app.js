@@ -57,5 +57,5 @@ server.listen(PORT, function(err) {
     console.log(err);
   }
   console.log("서버 돌아감")
-  console.log('http://localhost:${PORT}');
+  console.log(`http://localhost:${PORT}`);
 })
