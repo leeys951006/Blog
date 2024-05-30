@@ -1,6 +1,7 @@
 const http = require('http');
 const fs = require('fs');
 const qs = require('node:querystring');
+// const stress = require("./stress");
 
 
 const server = http.createServer((req,res) => {
@@ -54,27 +55,30 @@ const server = http.createServer((req,res) => {
         let title = a.title;
         let content = a.content;
 
-        // let b = {
-        //   title : title,
-        //   content : content
-        // }
+        let b = 
+        `<!DOCTYPE html>
+        <html lang="en">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>${title}</title>
+        </head>
+        <body>
+          <h1>${title}</h1>
+          <div>${content}</div>
+        </body>
+        </html>`
 
-        // let c = JSON.stringify(b, null, 2);
-
-        // fs.writeFile('./data.html', c, (err) => {
-        //   if(err) {
-        //     console.log("Error")
-        //     return;
-        //   }
+        fs.writeFile('./data/data.html', b, (err) => {
+          if(err) {
+            console.log("Error")
+            return;
+          }
           res.statusCode = 200;
-          res.setHeader('Content-Type', 'application/json; charset=utf-8')
-          res.end();
-
-        // })
-        console.log(a)
-
+          res.setHeader('Content-Type', 'text/html; charset=utf-8')
+          res.end(b);
+        })
       })
-
     }
   }
 });
