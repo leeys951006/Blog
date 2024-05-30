@@ -1,5 +1,7 @@
 const http = require('http');
 const fs = require('fs');
+const qs = require('node:querystring');
+
 
 const server = http.createServer((req,res) => {
   if(req.method === "GET") {
@@ -37,24 +39,50 @@ const server = http.createServer((req,res) => {
       res.setHeader('Content-Type', 'text/html; charset=uft-8');
       res.write(work);
       res.end();
-    }
+    } 
 
-    if(req.url === "/work.js") {
-      const work3 = fs.readFileSync("./public/work.js", "utf8");
-
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'application/javascript; charset=uft-8');
-      res.write(work3);
-      res.end();
-    }
+   
     console.log(req.url)
+  } else if(req.method === "POST") {
+    if(req.url === "/submit") {
+      let body = "";
+      req.on('data',(chunk) => {
+        body += chunk.toString()
+      })
+      req.on('end', () =>{
+        let a = qs.parse(body);
+        let title = a.title;
+        let content = a.content;
+
+        // let b = {
+        //   title : title,
+        //   content : content
+        // }
+
+        // let c = JSON.stringify(b, null, 2);
+
+        // fs.writeFile('./data.html', c, (err) => {
+        //   if(err) {
+        //     console.log("Error")
+        //     return;
+        //   }
+          res.statusCode = 200;
+          res.setHeader('Content-Type', 'application/json; charset=utf-8')
+          res.end();
+
+        // })
+        console.log(a)
+
+      })
+
+    }
   }
 });
 
 const PORT = 3000;
 server.listen(PORT, function(err) {
   if(err) {
-    console.log(err);
+    console.log('Error');
   }
   console.log("서버 돌아감")
   console.log(`http://localhost:${PORT}`);
