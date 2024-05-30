@@ -42,6 +42,15 @@ const server = http.createServer((req,res) => {
       res.end();
     } 
 
+    if(req.url === "/data/data.html") {
+      const work1 = fs.readFileSync("./data/data.html", "utf8");
+
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'text/html; charset=uft-8');
+      res.write(work1);
+      res.end();
+    } 
+
    
     console.log(req.url)
   } else if(req.method === "POST") {
@@ -62,6 +71,7 @@ const server = http.createServer((req,res) => {
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
           <title>${title}</title>
+          
         </head>
         <body>
           <h1>${title}</h1>
