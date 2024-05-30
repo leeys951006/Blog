@@ -51,6 +51,15 @@ const server = http.createServer((req,res) => {
       res.end();
     } 
 
+    if(req.url === "/work.js") {
+      const work1 = fs.readFileSync("./public/work.js", "utf8");
+
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/javascript; charset=uft-8');
+      res.write(work1);
+      res.end();
+    } 
+
   //  POST
 
     console.log(req.url)
