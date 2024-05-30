@@ -1,17 +1,7 @@
-const stressdata =
- `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${title}</title>
-  
-</head>
-<body>
-  <h1>${title}</h1>
-  <div>${content}</div>
-</body>
-</html>`
+const fs = require('fs');
 
+const data = fs.readdirSync(`./data`);
 
-module.exports = stress;
+for(i=0; i<i.length; i++) {
+  console.log(data[0]);
+}

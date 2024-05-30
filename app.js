@@ -51,7 +51,8 @@ const server = http.createServer((req,res) => {
       res.end();
     } 
 
-   
+  //  POST
+
     console.log(req.url)
   } else if(req.method === "POST") {
     if(req.url === "/submit") {
@@ -79,7 +80,7 @@ const server = http.createServer((req,res) => {
         </body>
         </html>`
 
-        fs.writeFile('./data/data.html', b, (err) => {
+        fs.writeFile(`./data/${title}.html`, b, (err) => {
           if(err) {
             console.log("Error")
             return;
