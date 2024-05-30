@@ -1,62 +1,63 @@
 const http = require('http');
 const fs = require('fs');
-const path = require('path');
+const qs = require('node:querystring');
 
-const server = http.createServer((req, res) => {
+
+// const data = fs.readFileSync('./index.html', 'utf-8');
+
+const server = http.createServer((req,res) => {
   if(req.method === "GET") {
+    console.log(req.url)
     if(req.url === "/") {
-      fs.readFile(path.join(__dirname, "index.html"), (err, data) => {
-        if(err) {
-          res.writeHead(500, {"Content-Type": "text/plain" });
-          res.end("500 code는 서버 자체의 에러");
-          return;
-        }
-        res.writeHead(200, { "Conten-Type": "text/html; charset=utf-8"});
-        res.end(data);
-      });
-    } else {
-      res.writeHead(404, { "Content-Type": "text/plain; charset=utf-8"});
-      res.end("404 code는 페이지를 찾을 수 없음");
+      const data = fs.readFileSync('./index.html', 'utf-8');
+
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      res.write(data);
+      res.end();
     }
-  } else if (req.method === "POST") {
-    if (req.url === "/submit") {
+  } else if(req.method === "POST") {
+    if(req.url === "/submit") {
       let body = "";
-      req.on("data", (chunk) => {
-        body += chunk.toString();
-      });
-      req.on("end", () => {
-        const parsedData = new URLSearchParams(body);
-        const title = parsedData.get("title");
-        const content = parsedData.get("content");
- 
-        const jsonData = {
-          title: title,
-          content: content,
-        };
-        
-        const jsonDataString = JSON.stringify(jsonData, null, 2);
-        fs.writeFile(path.join(__dirname, "data.json"), jsonDataString, (err) => {
-          if (err) {
-            res.writeHead(500, {"Content-Type": "text/plain; charset=utf-8"});
-            res.end("서버 자체 에러");
+      req.on('data',(chunk) => {
+        body += chunk.toString()
+      })
+      req.on('end', () =>{
+        let a = qs.parse(body);
+        let title = a.title;
+        let content = a.content;
+
+        let b = {
+          title : title,
+          content : content
+        }
+
+        let c = JSON.stringify(b, null, 2);
+
+        fs.writeFile('./data.json', c, (err) => {
+          if(err) {
+            console.log("Error")
             return;
           }
-          res.writeHead(200, {"Content-Type": "application/json; charset=utf-8"});
-          let jsonResponse = JSON.stringify({ message: "데이터가 성공적으로 저장됨"});
-          res. end(jsonResponse);
-        });
-      });
-    } else {
-      res.writeHead(404, { "Content-Type": "text/plain; charset=utf-8"});
-      res.end("404 code는 페이지를 찾을 수 없음");
+          res.statusCode = 200;
+          res.setHeader('Content-Type', 'application/json; charset=utf-8')
+          // let d = JSON.stringify(b,null,2);
+          res.end(title);
+        })
+
+      })
     }
-  } else {
-    res.writeHead(404, { "Content-Type": "text/plain; charset=utf-8"});
-    res.end("404 code는 페이지를 찾을 수 없음");
   }
+
 });
 
+
 const PORT = 3000;
-server.listen(PORT, () => {
+
+server.listen(PORT, (err) => {
+  if(err) {
+    console.log('Error');
+  } 
+  console.log("서버돌아감")
   console.log(`http://localhost:${PORT}`);
-});
+})
