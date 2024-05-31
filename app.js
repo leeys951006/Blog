@@ -42,8 +42,8 @@ const server = http.createServer((req,res) => {
       res.end();
     } 
 
-    if(req.url === "/data/data.html") {
-      const work1 = fs.readFileSync("./data/data.html", "utf8");
+    if(req.url === "/public/work.html") {
+      const work1 = fs.readFileSync(`./public/work.html`, "utf8");
 
       res.statusCode = 200;
       res.setHeader('Content-Type', 'text/html; charset=uft-8');
@@ -52,13 +52,22 @@ const server = http.createServer((req,res) => {
     } 
 
     if(req.url === "/work.js") {
-      const work1 = fs.readFileSync("./public/work.js", "utf8");
+      const work2 = fs.readFileSync("./public/work.js", "utf8");
 
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/javascript; charset=uft-8');
-      res.write(work1);
+      res.write(work2);
       res.end();
     } 
+
+    // if(req.url === `/public/${title}.html`) {
+    //   const work2 = fs.readFileSync(`./data/${title}.html`, "utf8");
+
+    //   res.statusCode = 200;
+    //   res.setHeader('Content-Type', 'text/html; charset=uft-8');
+    //   res.write(work2);
+    //   res.end();
+    // } 
 
   //  POST
 
@@ -86,6 +95,7 @@ const server = http.createServer((req,res) => {
         <body>
           <h1>${title}</h1>
           <div>${content}</div>
+          <div><a href="./public/work.html">돌아가기</a></div>
         </body>
         </html>`
 
