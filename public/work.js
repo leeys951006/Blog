@@ -1,19 +1,11 @@
-const fs = require('fs');
-const data = fs.readdirSync(`./data`);
-// console.log(data)
-// const list = document.getElementById('list');
+let fs = require('fs');
+let data = fs.readdirSync(`./data`);
+// const root = document.getElementById('root');
 // const listdata = document.createElement('li');
-// list.appendChild(listdata);
-
-
-data.forEach((element) => {console.log(element)});
-
-
-// function a() {
-//   for(i=0; i<data.length; i++) {
-//     console.log(LISTdata)
-//   }
-
-// }
-  
-
+// root.appendChild(listdata);
+// console.log(data)
+let datalist = data.forEach(function(data) {
+  console.log(data)
+})
+// console.log(datalist)
+// console.log(datalist)
